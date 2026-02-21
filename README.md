@@ -18,8 +18,8 @@ The `Game2048` component accepts the following props:
 |---------------|----------------------------------------------|---------|-----------------------------------------------------------------------------|
 | `onGameEnd`   | `(result: { score: number; moves: number; status: "won" \| "lost" }) => void` | —       | Callback fired when the game finishes (winning or losing).                 |
 | `onGameStart` | `() => void`                                 | —       | Callback fired when the game begins or is reset.                           |
+| `size`        | `"sm" \| "md" \| "lg" \| "xl"`               | `"md"`| Adjusts the overall size of the game board (mobile and desktop).          |
 | `className`   | `string`                                     | —       | Additional CSS class applied to the game container.                        |
-| `size`        | `"sm" \| "md" \| "lg"`               | `"md"`| Adjusts the overall size of the game board (mobile and desktop).          |
 
 ## Usage
 
@@ -33,6 +33,7 @@ export default function App() {
       onGameEnd={({ score, moves, status }) => {
         console.log({ score, moves, status });
       }}
+      onGameStart={() => console.log('game started')}
     />
   );
 }
