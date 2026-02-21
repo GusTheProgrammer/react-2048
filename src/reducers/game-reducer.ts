@@ -2,7 +2,7 @@ import { tileCountPerDimension } from "@/constants";
 import { type Tile, type TileMap } from "@/types/tile";
 import { nanoid } from "nanoid";
 
-type GameStatus = "ongoing" | "won" | "lost";
+type GameStatus = "idle" | "ongoing" | "won" | "lost";
 
 type State = {
   board: string[][];
@@ -10,6 +10,7 @@ type State = {
   tilesByIds: string[];
   hasChanged: boolean;
   score: number;
+  moves: number;
   status: GameStatus;
 };
 type Action =
@@ -38,7 +39,8 @@ export const initialState: State = {
   tilesByIds: [],
   hasChanged: false,
   score: 0,
-  status: "ongoing",
+  moves: 0,
+  status: "idle",
 };
 
 export default function gameReducer(
@@ -137,6 +139,7 @@ export default function gameReducer(
         tiles: newTiles,
         hasChanged,
         score,
+        moves: state.moves + 1,
       };
     }
     case "move_down": {
@@ -188,6 +191,7 @@ export default function gameReducer(
         tiles: newTiles,
         hasChanged,
         score,
+        moves: state.moves + 1,
       };
     }
     case "move_left": {
@@ -239,6 +243,7 @@ export default function gameReducer(
         tiles: newTiles,
         hasChanged,
         score,
+        moves: state.moves + 1,
       };
     }
     case "move_right": {
@@ -290,6 +295,7 @@ export default function gameReducer(
         tiles: newTiles,
         hasChanged,
         score,
+        moves: state.moves + 1,
       };
     }
     case "reset_game":

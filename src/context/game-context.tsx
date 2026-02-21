@@ -6,6 +6,7 @@ import {
   useReducer,
   useRef,
 } from "react";
+import { containerWidthMobile as defaultCWMobile, containerWidthDesktop as defaultCWDesktop } from "@/constants";
 import {
   gameWinTileValue,
   mergeAnimationDuration,
@@ -18,13 +19,25 @@ type MoveDirection = "move_up" | "move_down" | "move_left" | "move_right";
 
 export const GameContext = createContext({
   score: 0,
-  status: "ongoing",
+  moves: 0,
+  status: "idle",
   moveTiles: (_: MoveDirection) => {},
   getTiles: () => [] as Tile[],
   startGame: () => {},
+  containerWidthMobile: defaultCWMobile,
+  containerWidthDesktop: defaultCWDesktop,
 });
 
-export default function GameProvider({ children }: PropsWithChildren) {
+type GameProviderProps = PropsWithChildren<{
+  containerWidthMobile?: number;
+  containerWidthDesktop?: number;
+}>;
+
+export default function GameProvider({
+  children,
+  containerWidthMobile = defaultCWMobile,
+  containerWidthDesktop = defaultCWDesktop,
+}: GameProviderProps) {
   const [gameState, dispatch] = useReducer(gameReducer, initialState);
 
   const getEmptyCells = () => {
@@ -73,6 +86,7 @@ export default function GameProvider({ children }: PropsWithChildren) {
 
   const startGame = () => {
     dispatch({ type: "reset_game" });
+    dispatch({ type: "update_status", status: "ongoing" });
     dispatch({ type: "create_tile", tile: { position: [0, 1], value: 2 } });
     dispatch({ type: "create_tile", tile: { position: [0, 2], value: 2 } });
   };
@@ -132,10 +146,13 @@ export default function GameProvider({ children }: PropsWithChildren) {
     <GameContext.Provider
       value={{
         score: gameState.score,
+        moves: gameState.moves,
         status: gameState.status,
         getTiles,
         moveTiles,
         startGame,
+        containerWidthMobile,
+        containerWidthDesktop,
       }}
     >
       {children}

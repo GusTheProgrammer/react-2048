@@ -2,15 +2,27 @@ import { GameContext } from "@/context/game-context";
 import { useContext } from "react";
 import styles from "@/styles/splash.module.css";
 
-export default function Splash({ heading = "You won!", type = "" }) {
+type SplashProps = {
+  heading?: string;
+  type?: "" | "won";
+  buttonLabel?: string;
+  onAction?: () => void;
+};
+
+export default function Splash({
+  heading = "You won!",
+  type = "",
+  buttonLabel = "Play again",
+  onAction,
+}: SplashProps) {
   const { startGame } = useContext(GameContext);
 
   return (
     <div className={`${styles.splash} ${type === "won" ? styles.win : ""}`}>
       <div>
         <h1>{heading}</h1>
-        <button className={styles.button} onClick={startGame}>
-          Play again
+        <button className={styles.button} onClick={onAction ?? startGame}>
+          {buttonLabel}
         </button>
       </div>
     </div>

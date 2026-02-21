@@ -14,11 +14,24 @@ type MobileSwiperProps = PropsWithChildren<{
 
 export default function MobileSwiper({ children, onSwipe }: MobileSwiperProps) {
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const swipeThreshold = 12;
   const [startX, setStartX] = useState(0);
   const [startY, setStartY] = useState(0);
 
+  const isInteractiveTarget = (target: EventTarget | null) => {
+    if (!(target instanceof Element)) {
+      return false;
+    }
+
+    return target.closest("button, a, input, textarea, select, [role='button']") != null;
+  };
+
   const handleTouchStart = useCallback((e: TouchEvent) => {
     if (!wrapperRef.current?.contains(e.target as Node)) {
+      return;
+    }
+
+    if (isInteractiveTarget(e.target)) {
       return;
     }
 
@@ -34,12 +47,25 @@ export default function MobileSwiper({ children, onSwipe }: MobileSwiperProps) {
         return;
       }
 
+      if (isInteractiveTarget(e.target)) {
+        return;
+      }
+
       e.preventDefault();
 
       const endX = e.changedTouches[0].clientX;
       const endY = e.changedTouches[0].clientY;
       const deltaX = endX - startX;
       const deltaY = endY - startY;
+
+      if (
+        Math.abs(deltaX) < swipeThreshold &&
+        Math.abs(deltaY) < swipeThreshold
+      ) {
+        setStartX(0);
+        setStartY(0);
+        return;
+      }
 
       onSwipe({ deltaX, deltaY });
 

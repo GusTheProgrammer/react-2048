@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect, useRef, type JSX } from "react";
+import { useCallback, useContext, useEffect, type JSX } from "react";
 import { type Tile as TileModel } from "@/types/tile";
 import Tile from "./tile";
 import { GameContext } from "@/context/game-context";
@@ -8,7 +8,6 @@ import styles from "@/styles/board.module.css";
 
 export default function Board() {
   const { getTiles, moveTiles, startGame, status } = useContext(GameContext);
-  const initialized = useRef(false);
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
@@ -70,13 +69,6 @@ export default function Board() {
   };
 
   useEffect(() => {
-    if (initialized.current === false) {
-      startGame();
-      initialized.current = true;
-    }
-  }, [startGame]);
-
-  useEffect(() => {
     window.addEventListener("keydown", handleKeyDown);
 
     return () => {
@@ -87,6 +79,9 @@ export default function Board() {
   return (
     <MobileSwiper onSwipe={handleSwipe}>
       <div className={styles.board}>
+        {status === "idle" && (
+          <Splash heading="Ready to play?" buttonLabel="Start game" onAction={startGame} />
+        )}
         {status === "won" && <Splash heading="You won!" type="won" />}
         {status === "lost" && <Splash heading="You lost!" />}
         <div className={styles.tiles}>{renderTiles()}</div>
