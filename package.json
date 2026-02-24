@@ -4,6 +4,10 @@
   "description": "A self-contained 2048 game React component",
   "author": "GusTheProgrammer",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GusTheProgrammer/react-2048"
+  },
   "type": "module",
   "files": [
     "dist"
