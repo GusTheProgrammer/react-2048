@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { useMediaQuery } from "usehooks-ts";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 import {
   mergeAnimationDuration,
   tileCountPerDimension,

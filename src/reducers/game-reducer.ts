@@ -1,6 +1,5 @@
 import { tileCountPerDimension } from "@/constants";
 import { type Tile, type TileMap } from "@/types/tile";
-import { nanoid } from "nanoid";
 
 type GameStatus = "idle" | "ongoing" | "won" | "lost";
 
@@ -72,7 +71,7 @@ export default function gameReducer(
       };
     }
     case "create_tile": {
-      const tileId = nanoid();
+      const tileId = crypto.randomUUID();
       const [x, y] = action.tile.position;
       const newBoard = JSON.parse(JSON.stringify(state.board));
       newBoard[y][x] = tileId;

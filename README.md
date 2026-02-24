@@ -1,6 +1,6 @@
 # react-2048
 
-[![npm version](https://img.shields.io/npm/v/react-2048.svg)](https://www.npmjs.comocs/package/react-2048)
+[![npm version](https://img.shields.io/npm/v/react-2048.svg)](https://www.npmjs.com/package/react-2048)
 
 A self-contained 2048 game React component.
 
